@@ -1,0 +1,58 @@
+version: '3.3'
+
+services:
+
+      replace_here_db:
+            container_name: replace_here_db
+            image: mariadb:latest
+            ports:
+                  - "127.0.0.1:3306:3306"
+            volumes:
+                  -  ./mariadb/:/var/lib/mysql
+            restart: always
+            environment:
+                  MYSQL_ROOT_PASSWORD: replace_here
+                  MYSQL_DATABASE: replace_here
+                  MYSQL_USER: replace_here
+                  MYSQL_PASSWORD: replace_here
+            networks:
+                  - wordpress-network
+
+      replace_here_wp:
+            container_name: replace_here_wp
+            image: wordpress:latest
+            volumes:
+                  -  ./public/:/var/www/html
+            environment:
+                  VIRTUAL_HOST: replace_here.devloc.com.br
+                  VIRTUAL_PORT: "127.0.0.1:80:80"
+                  WORDPRESS_DB_HOST: replace_here_db:3306
+                  WORDPRESS_DB_NAME: replace_here
+                  WORDPRESS_TABLE_PREFIX: wp_dev_
+                  WORDPRESS_DB_PASSWORD: replace_here
+            ports:
+                  - "127.0.0.1:80:80"
+            links:
+                  - replace_here_db
+            restart: always
+            networks:
+                  - wordpress-network
+
+      replace_here_phpmyadmin:
+            container_name: replace_here_phpmyadmin
+            image: phpmyadmin/phpmyadmin:latest
+            ports:
+                  - "127.0.0.1:8080:80"
+            links:
+                  - replace_here_db
+            restart: always
+            environment:
+                  - PMA_ARBITRARY=1
+                  - PMA_HOST=replace_here_db
+            volumes:
+                  - /sessions
+            networks:
+                  - wordpress-network
+networks:
+  wordpress-network:
+      driver: bridge
