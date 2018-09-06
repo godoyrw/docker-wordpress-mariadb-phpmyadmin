@@ -1,7 +1,7 @@
 # Docker YML File 3.3
 Docker (docker-compose.yml) for Wordpress, MariaDB and phpMyAdmin
 
-# Using Technology
+## Using Technology
 
 ![Docker](./assets/github-dwmp.png)
 
